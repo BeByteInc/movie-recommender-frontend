@@ -22,6 +22,10 @@ DerivedData
 *.xcuserstate
 ios/.xcode.env.local
 
+# Global Variables
+#
+resources/
+
 # Android/IntelliJ
 #
 build/
