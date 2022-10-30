@@ -10,9 +10,11 @@ type Props = {
 
 const SearchBarWithIcon = ({ onChange }: Props) => {
     return (
-            <View style={{ backgroundColor: COLORS.grayBg, width: ww(.9), alignSelf: "center", alignItems: "center", flexDirection: "row", borderRadius: 12 }}>
+            <View style={{ backgroundColor: COLORS.grayBg, width: ww(.9),marginVertical:10, alignSelf: "center", alignItems: "center", flexDirection: "row", borderRadius: 12 }}>
                 <Icon color={COLORS.white} name="search" type="font-awesome" tvParallaxProperties={undefined} size={ww(.04)} style={{ paddingHorizontal: 10, marginLeft: 10 }} />
                 <TextInput
+                    placeholder='Search'
+                    placeholderTextColor={"gray"}
                     onChangeText={(text: string) => onChange(text)}
                     style={{ flex: 1, color: COLORS.white }}
                 />

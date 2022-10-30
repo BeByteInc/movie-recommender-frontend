@@ -10,7 +10,7 @@ type Props = {
 
 const ProgressHeader = ({ selectedFav }: Props) => {
     return (
-        <View style={{ margin: 20, position: "relative" }}>
+        <View style={{ margin: 15, position: "relative" }}>
             <Text style={STYLES.text}>{selectedFav} Movie Selected</Text>
             <TouchableOpacity style={{ position: "absolute", right: 3 }} disabled={selectedFav < 5}>
                 <Text style={{ color: selectedFav >= 5 ? COLORS.white : COLORS.disabledColor,fontFamily:FONTS.regular }}>Continue</Text>

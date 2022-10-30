@@ -1,6 +1,7 @@
 import axios from "axios"
 import { API_URL } from "../../resources"
 
+
 const getMovieById = async (id:number) => {
   try {
     let result = axios.get(API_URL+"/get_movie_by_id?id="+id)

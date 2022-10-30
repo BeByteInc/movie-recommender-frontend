@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { COLORS } from '../styles'
+import { COLORS, FONTS, STYLES } from '../styles'
 import ProgressHeader from '../components/ProgressHeader'
 import SearchBarWithIcon from '../components/SearchBarWithIcon'
 import { FlatList } from 'react-native-gesture-handler'
 import { Movie } from '../types'
 import { getTopRatedMovies } from '../services'
+import { ww } from '../helpers'
+import { Text } from 'react-native-elements'
 
 type Props = {}
 
@@ -20,23 +22,19 @@ export const ChooseFav = (props: Props) => {
 
     useEffect(() => {
         getMovieList()
-    }, [])
+    }, [page])
 
     const getMovieList = async () => {
-        try {
-            let list = await getTopRatedMovies(page)
-            setMovieList(list?.data)
-        }
-        catch (e) {
-            console.log("error", e)
-        }
+        let list = await getTopRatedMovies(page)
+        console.log("list",list);
+        setMovieList(list?.data?.movie_list)
 
     }
 
     const renderMovieList = (({ item, index }: any) => {
         console.log("item", item);
         return (
-            <View>
+            <View style={{width:ww(.9),alignSelf:"center",backgroundColor:COLORS.grayBg,margin:8}}>
 
             </View>
         )
@@ -44,12 +42,19 @@ export const ChooseFav = (props: Props) => {
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.main }}>
             <ProgressHeader selectedFav={selectedFav} />
+
+            <Text style={STYLES.text}>
+                Choose at least 5 favorite movies 🎉
+            </Text>
             <SearchBarWithIcon onChange={(text) => {
                 console.log("onchange", text)
             }} />
 
+            <View style={{height:.8,width:ww(.95),backgroundColor:COLORS.secondary, marginVertical:10,alignSelf:"center",borderRadius:12}}/>
+
             <FlatList
                 data={movieList}
+                contentContainerStyle={{marginTop:15}}
                 renderItem={renderMovieList}
                 keyExtractor={item => item.id.toString()}
             />
