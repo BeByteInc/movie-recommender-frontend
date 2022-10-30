@@ -7,13 +7,15 @@ import { wh } from "./src/helpers";
 import { COLORS } from "./src/styles";
 import { Loader } from "./src/components";
 import { Home } from "./src/pages/Home";
+import { useMovieStore } from "./store";
+import { ChooseFav } from "./src/pages/ChooseFav";
 
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Router = () => {
-    const [loading, setLoading] = useState(false)
+    const favorites = useMovieStore((state => state.favorites))
 
     const TabStack = () => {
         return (
@@ -45,15 +47,30 @@ const Router = () => {
         )
 
     }
+
+    const StepperStack = () => {
+        return (
+            <Stack.Navigator
+                initialRouteName={"ChooseFav"} screenOptions={{ headerShown: false }}>
+                <Stack.Screen name={"ChooseFav"} component={ChooseFav} />
+            </Stack.Navigator>
+        )
+
+    }
     return (
         <NavigationContainer>
-            <Loader loading={loading} />
+
             {
-                !loading &&
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name={"TabStack"} component={TabStack} />
-                </Stack.Navigator>
+                favorites.length === 0 ?
+                    <StepperStack /> :
+                    <Stack.Navigator screenOptions={{ headerShown: false }}>
+                        {
+
+                            <Stack.Screen name={"TabStack"} component={TabStack} />
+                        }
+                    </Stack.Navigator>
             }
+
         </NavigationContainer>
     );
 

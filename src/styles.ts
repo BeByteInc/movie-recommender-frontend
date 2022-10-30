@@ -1,280 +1,44 @@
-import {wh, ww} from "./helpers";
-import {Platform} from "react-native";
+import { wh, ww } from "./helpers";
+import { Platform } from "react-native";
 
 export const COLORS = {
-    main: "#121754",
+    main: "#101018",
+    white: "#fefefe",
+    grayBg: "#15171a",
+    textColor: "#dfe0e6",
+    disabledColor: "gray",
     grey: "#888",
     softMain: "#28339a",
-    secondary: "#AC4A59",
+    secondary: "#fab04a",
     softSecondary: "#aba5d9",
     aqua: "#b7cbf1",
 }
 
 export const FONTS = {
-    bold: "Oswald-Bold",
-    medium: "Oswald-Medium",
-    regular: "Oswald-Regular",
-    semiBold: "Oswald-SemiBold",
-    light: "Oswald-Light",
-    extraLight: "Oswald-ExtraLight",
+    bold: "OpenSans-Bold",
+    extraBold: "OpenSans-ExtraBold",
+    medium: "OpenSans-Medium",
+    regular: "OpenSans-Regular",
+    semiBold: "OpenSans-SemiBold",
+    light: "OpenSans-Light",
 }
 
-export const STYLES = {
-    title: {
-        width:"95%",
-        fontFamily: FONTS.semiBold,
-        fontSize: ww(.035),
-        color: "#222"
-    },
-    subText: {
-        fontFamily: FONTS.semiBold,
-        fontSize: ww(.03),
-        color: "#333"
-    },
-    listWrapper: {
-        position: "relative",
-        backgroundColor: "#FEFEFE",
-        borderRadius: 8,
-        width: ww(.45),
-        height: wh(.35),
-        padding: ww(.02),
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
-    },
-    image: {
+export const STYLES: any = {
+    mainContainer: {
         flex: 1,
-        borderRadius: 8,
+        backgroundColor: COLORS.main
     },
-    row: {flexDirection: "row", alignItems: "center"},
-    buttonWrapper: {flex: .2, justifyContent: "center", alignItems: "center"},
-    buttonView: {
-        height: "85%",
-        width: "100%",
-        backgroundColor: COLORS.main,
-        borderRadius: 5,
-        justifyContent: "center",
-        alignItems: "center"
+    text: {
+        textAlign: "center",
+        color: COLORS.textColor,
+        fontFamily: FONTS.medium
     },
-    buttonText: {color: "#FEFEFE", fontFamily: FONTS.semiBold, fontSize: ww(.03)},
-    search: {width: "95%", marginVertical: wh(.01)},
-    container: {
+    backgroundImage: {
         flex: 1,
+        justifyContent: "center"
     },
-    detailWrapper: {flex: .15, marginTop: wh(.01)},
-    imageCategory: {width: "100%", flex: 1, borderRadius: 8},
-    categoryWrapper: {
-        backgroundColor: "#FEFEFE",
-        borderRadius: 8,
-        width: ww(.3),
-        height: wh(.2),
-        padding: ww(.015),
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
-    },
-    favWrapper: {
-        position: "absolute",
-        borderRadius: 20,
-        zIndex: 2,
-        padding: ww(.015),
-        justifyContent: "center",
-        alignItems: "center",
-        top: wh(.015),
-        right: ww(.03),
-        backgroundColor: "#FEFEFE",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
-    bottomView: {
-        height: 3,
-        backgroundColor: COLORS.main,
-        width: ww(.25)
-    },
-    searchButton: {
-        position: "absolute",
-        right: ww(.07),
-        bottom: wh(.03),
-        backgroundColor: "#FEFEFE",
-        padding: 15,
-        borderRadius: 50,
-        justifyContent: "center",
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
-    marker: {
-        width: 50,
-        height: 50,
-        borderRadius: 25
-    },
-    markerWrap: {
-        alignItems: "center",
-        justifyContent: "center",
-        width: 50,
-        height: 50,
-    },
-    backBox: {
-        position: 'absolute',
-        marginTop: Platform.OS === 'ios' ? 40 : 20,
-        flexDirection: "row",
-        backgroundColor: '#fff',
-        width: ww(.11),
-        height: ww(.11),
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: 'flex-start',
-        left: ww(.06),
-        borderRadius: 50,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        shadowColor: '#ccc',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 10,
-        zIndex:2
-    },
-    navigationBox: {
-        position: 'absolute',
-        marginTop: Platform.OS === 'ios' ? 40 : 20,
-        flexDirection: "row",
-        backgroundColor: '#fff',
-        width: ww(.11),
-        height: ww(.11),
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: 'flex-start',
-        right: ww(.06),
-        borderRadius: 50,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        shadowColor: '#ccc',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 10,
-        zIndex:2
-    },
-    navigationBox2: {
-        backgroundColor: '#fff',
-        marginRight:ww(.02),
-        //width: ww(.26),
-        flexDirection:"row",
-        marginVertical: 2,
-        alignItems: "center",
-        alignSelf: 'flex-end',
-        borderRadius: 8,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        shadowColor: '#ccc',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 10,
-    },
-    goWrapper: {
-        position: 'absolute',
-        bottom:"5%",
-        right:10,
-        zIndex:2
-    },
-    goBox:{
-        backgroundColor: '#fff',
-        //width: ww(.26),
-        flexDirection:"row",
-        height: ww(.1),
-        marginVertical: 2,
-        alignItems: "center",
-        alignSelf: 'flex-end',
-        borderRadius: 8,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        shadowColor: '#ccc',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 10,
-    },
-    centerView: {
-        position: 'absolute',
-        marginTop: wh(.05),
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: 'center',
-        borderRadius: 50,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        shadowColor: '#ccc',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 10,
-        zIndex: 2,
-    },
-    favBox: {
-        position: 'absolute',
-        marginTop: wh(.05),
-        flexDirection: "row",
-        backgroundColor: '#fff',
-        width: ww(.11),
-        height: ww(.11),
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: 'flex-start',
-        right: ww(.06),
-        borderRadius: 50,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        shadowColor: '#ccc',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 10,
-        zIndex: 2,
-    },
-    input:{
-        backgroundColor:"lightgrey",
-        borderRadius:4,
-        flex:1,
-        marginHorizontal:10,
-        paddingHorizontal:10,
-        paddingTop:12,
-    },
-    containerInput:{
-        padding:20,
-        borderTopWidth:1,
-        borderColor:"#cfcfcf",
-        backgroundColor:"#FEFEFE",
-        flexDirection:"row",
-        justifyContent:"center",
+    fullScreen: {
+        width: ww(1),
+        height: wh(1)
     }
-
 }
-
-export const BANNER_H = 350;
-export const TOPNAVI_H = 50;
