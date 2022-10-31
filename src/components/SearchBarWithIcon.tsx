@@ -5,7 +5,7 @@ import { ww } from '../helpers'
 import { Icon } from 'react-native-elements'
 
 type Props = {
-    onChange: (text: string) => void
+    onChange: (text: string) => void,
 }
 
 const SearchBarWithIcon = ({ onChange }: Props) => {

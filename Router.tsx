@@ -15,7 +15,14 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Router = () => {
-    const favorites = useMovieStore((state => state.favorites))
+    const fav = useMovieStore((state => state.favorites))
+    const [favorites,setFavorites] =  useState<any>(null)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setFavorites(fav);
+        },100)
+    } ,[])
 
     const TabStack = () => {
         return (
@@ -59,9 +66,9 @@ const Router = () => {
     }
     return (
         <NavigationContainer>
-
+            <Loader/>
             {
-                favorites.length === 0 ?
+                favorites === 0 ?
                     <StepperStack /> :
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
                         {

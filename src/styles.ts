@@ -28,10 +28,22 @@ export const STYLES: any = {
         flex: 1,
         backgroundColor: COLORS.main
     },
+    heartLottie: {
+        width: 50,
+        height: 50,
+    },
     text: {
         textAlign: "center",
         color: COLORS.textColor,
         fontFamily: FONTS.medium
+    },
+    movieCardTitle: {
+        textAlign: "center",
+        color: COLORS.textColor,
+        fontSize: ww(.035),
+        fontFamily: FONTS.bold,
+        width: ww(.8),
+        paddingHorizontal: 10
     },
     backgroundImage: {
         flex: 1,

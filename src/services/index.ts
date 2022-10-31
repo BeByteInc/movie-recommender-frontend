@@ -13,10 +13,10 @@ const getMovieById = async (id:number) => {
 
 const getTopRatedMovies = async (page:number) => {
   try {
-    let result = axios.get(API_URL+"/get_top_rated_movies?page="+page)
-    return result;
+    let result = await axios.get(API_URL+"/get_top_rated_movies?page="+page)
+    return result.data.movie_list;
   } catch (error) {
-    console.log(error)
+    return [];
   }
 }
 
@@ -31,10 +31,10 @@ const getTopRatedMoviesByGenre = async (page:number,genreName:string) => {
 
 const searchAll = async (input:string) => {
   try {
-    let result = axios.get(API_URL+"/search_by_title_all_data?key="+input)
-    return result;
+    let result = await axios.get(API_URL+"/search_by_title_all_data?key="+input)
+    return result.data.movie_list;
   } catch (error) {
-    console.log(error)
+    return [];
   }
 }
 

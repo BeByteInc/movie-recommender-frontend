@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { Button } from 'react-native-elements'
-import { useMovieStore } from '../../store'
+import { useLoadingState, useMovieStore } from '../../store'
 import { getTopRatedMovies } from '../services'
 
 type Props = {}
 
 export const Home = (props: Props) => {
   const favorites = useMovieStore((state => state.favorites))
+  const setLoading = useLoadingState((state => state.setLoading))
   const addFavorite = useMovieStore((state => state.addFavorite))
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export const Home = (props: Props) => {
 
   const getMovieList = async () => {
     const movieList = await getTopRatedMovies(1);
+    setLoading(false);
     console.log("movieList",movieList)
   }
   

@@ -1,7 +1,7 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Movie, FavoriteState } from './src/types';
+import { Movie, FavoriteState, LoadingState } from './src/types';
 
 
 export const useMovieStore = create<FavoriteState>(
@@ -17,10 +17,18 @@ export const useMovieStore = create<FavoriteState>(
         });
       },
       addFavorite: (favorite: Movie) => {
-      set(state => {
-        return {
-          ...state,
-          favorites: [...state.favorites, favorite],
+        set(state => {
+          return {
+            ...state,
+            favorites: [...state.favorites, favorite],
+          };
+        });
+      },
+      addFavList: (favList: Movie[]) => {
+        set(state => {
+          return {
+            ...state,
+            favorites: [...state.favorites, ...favList],
           };
         });
       },
@@ -33,7 +41,16 @@ export const useMovieStore = create<FavoriteState>(
     }),
     {
       name: 'favorite-storage',
-      getStorage: () => AsyncStorage,  
+      getStorage: () => AsyncStorage,
     },
   ),
+);
+
+export const useLoadingState = create<LoadingState>(
+  set => ({
+    loading: true,
+    setLoading: (loading:boolean) => set(() => ({ loading })),
+
+  }
+  )
 );
