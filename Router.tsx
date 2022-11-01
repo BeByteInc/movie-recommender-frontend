@@ -7,7 +7,7 @@ import { wh } from "./src/helpers";
 import { COLORS } from "./src/styles";
 import { Loader } from "./src/components";
 import { Home } from "./src/pages/Home";
-import { useMovieStore } from "./store";
+import { useLoadingState, useMovieStore } from "./store";
 import { ChooseFav } from "./src/pages/ChooseFav";
 
 
@@ -15,14 +15,18 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Router = () => {
-    const fav = useMovieStore((state => state.favorites))
-    const [favorites,setFavorites] =  useState<any>(null)
+    const favorites = useMovieStore((state => state.favorites));
+    const setLoading = useLoadingState((state => state.setLoading));
+    const loading = useLoadingState((state => state.loading))
 
     useEffect(() => {
+        setLoading(true);
+
         setTimeout(() => {
-            setFavorites(fav);
-        },100)
-    } ,[])
+            setLoading(false);
+        }, 250)
+    }, [])
+
 
     const TabStack = () => {
         return (
@@ -66,16 +70,25 @@ const Router = () => {
     }
     return (
         <NavigationContainer>
-            <Loader/>
             {
-                favorites === 0 ?
-                    <StepperStack /> :
-                    <Stack.Navigator screenOptions={{ headerShown: false }}>
-                        {
+                loading ?
+                    <Loader /> :
+                    <>
 
-                            <Stack.Screen name={"TabStack"} component={TabStack} />
+                        {
+                            favorites.length === 0 ?
+                                <StepperStack /> :
+                                favorites.length > 0 ?
+                                    <Stack.Navigator screenOptions={{ headerShown: false }}>
+                                        {
+
+                                            <Stack.Screen name={"TabStack"} component={TabStack} />
+                                        }
+                                    </Stack.Navigator> :
+                                    <></>
                         }
-                    </Stack.Navigator>
+                    </>
+
             }
 
         </NavigationContainer>

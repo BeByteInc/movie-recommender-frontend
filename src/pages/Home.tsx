@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import { Button } from 'react-native-elements'
 import { useLoadingState, useMovieStore } from '../../store'
 import { getTopRatedMovies } from '../services'
 
@@ -25,7 +24,6 @@ export const Home = (props: Props) => {
     <View>
       <Text>Home</Text>
       <TouchableOpacity style={{backgroundColor:"red"}} onPress={() => {
-        console.log("basmadan önce favorites",favorites);
         addFavorite({
           "id": 0,
           "original_title": "string",
