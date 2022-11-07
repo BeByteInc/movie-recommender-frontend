@@ -26,6 +26,16 @@ export interface SvgIconProps {
   height?:number,
 }
 
+export interface LoginProps {
+  onPressRegister: () => void;
+  onPressLogin: (data:UserData) => void;
+}
+
+export interface RegisterProps {
+  onPressRegister: (data:UserData) => void;
+  onPressLogin: () => void;
+}
+
 export interface LoadingState {
   loading: boolean;
   setLoading: (state:boolean) => void;
@@ -37,8 +47,9 @@ export interface TokenState {
 }
 
 export interface UserData {
-  username: string;
-  password: string;
+  username?: string;
+  email?:string;
+  password?: string;
 }
 
 

@@ -1,13 +1,22 @@
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {COLORS, STYLES} from '../styles';
 import {ww} from '../helpers';
+import { RegisterProps, UserData } from '../types';
 
-type Props = {
-  onPressLogin: () => void;
-};
 
-export const RegisterScreen = ({onPressLogin}: Props) => {
+export const RegisterScreen = ({onPressRegister,onPressLogin}: RegisterProps) => {
+    const [registerData,setRegisterData] = useState<UserData>({
+        email:"",
+        username:"",
+        password:""
+    })
+
+    const handleChange = (text:string,key:string) => {
+        setRegisterData((prev) => {
+            return {...prev,[key]:text}
+        })
+    }
   return (
     <>
       <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
@@ -15,6 +24,7 @@ export const RegisterScreen = ({onPressLogin}: Props) => {
           placeholder="Email"
           keyboardType="email-address"
           placeholderTextColor={COLORS.grey}
+          onChangeText={(text) => handleChange(text,"email")}
           style={{
             width: ww(0.75),
             padding: 10,
@@ -25,6 +35,7 @@ export const RegisterScreen = ({onPressLogin}: Props) => {
         />
         <TextInput
           placeholder="Username"
+          onChangeText={(text) => handleChange(text,"username")}
           placeholderTextColor={COLORS.grey}
           style={{
             width: ww(0.75),
@@ -37,6 +48,7 @@ export const RegisterScreen = ({onPressLogin}: Props) => {
         />
         <TextInput
           placeholder="Password"
+          onChangeText={(text) => handleChange(text,"password")}
           secureTextEntry
           placeholderTextColor={COLORS.grey}
           style={{
@@ -48,7 +60,7 @@ export const RegisterScreen = ({onPressLogin}: Props) => {
             color: COLORS.white,
           }}
         />
-        <TouchableOpacity style={{padding: 6, marginTop: 20}}>
+        <TouchableOpacity style={{padding: 6, marginTop: 20}} onPress={() => onPressRegister(registerData)}>
           <Text style={{...STYLES.buttonText, color: COLORS.secondary}}>
             Register
           </Text>

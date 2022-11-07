@@ -9,7 +9,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 const register = async (data:UserData) => {
   try {
     let result = await axios.post("/register",data);
-    return result;
+    return result.data.token;
   } catch (error) {
     console.log(error);
   }
@@ -17,8 +17,7 @@ const register = async (data:UserData) => {
 const login = async (data:UserData) => {
   try {
     let result = await axios.post("/login",data);
-    axios.defaults.headers.common['Authorization'] = result.data.token;
-    return result.status;
+    return result.data.token;
   } catch (error) {
     console.log(error);
   }
@@ -75,5 +74,7 @@ export {
   getTopRatedMovies,
   getTopRatedMoviesByGenre,
   searchWithGenre,
-  searchAll
+  searchAll,
+  register,
+  login
 }

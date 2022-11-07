@@ -1,18 +1,26 @@
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {COLORS, STYLES} from '../styles';
 import {ww} from '../helpers';
+import {LoginProps, UserData} from '../types';
 
-type Props = {
-  onPressRegister: () => void;
-};
+export const LoginScreen = ({onPressRegister, onPressLogin}: LoginProps) => {
+    const [loginData,setLoginData] = useState<UserData>({
+        username:"",
+        password:""
+    })
 
-export const LoginScreen = ({onPressRegister}: Props) => {
+    const handleChange = (text:string,key:string) => {
+        setLoginData((prev) => {
+            return {...prev,[key]:text}
+        })
+    }
   return (
     <>
       <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
         <TextInput
           placeholder="Username"
+          onChangeText={(text) => handleChange(text,"username")}
           placeholderTextColor={COLORS.grey}
           style={{
             width: ww(0.75),
@@ -24,6 +32,7 @@ export const LoginScreen = ({onPressRegister}: Props) => {
         />
         <TextInput
           placeholder="Password"
+          onChangeText={(text) => handleChange(text,"password")}
           placeholderTextColor={COLORS.grey}
           secureTextEntry
           style={{
@@ -35,7 +44,9 @@ export const LoginScreen = ({onPressRegister}: Props) => {
             color: COLORS.white,
           }}
         />
-        <TouchableOpacity style={{padding: 6, marginTop: 20}}>
+        <TouchableOpacity
+          style={{padding: 6, marginTop: 20}}
+          onPress={() => onPressLogin(loginData)}>
           <Text style={{...STYLES.buttonText, color: COLORS.secondary}}>
             Sign In
           </Text>
