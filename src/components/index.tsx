@@ -1,7 +1,6 @@
-import Loader from "./Loader";
-import { Footer } from "./Footer";
+import Loader from './Loader';
+import {Footer} from './Footer';
+import {LoginScreen} from './LoginScreen';
+import {RegisterScreen} from './RegisterScreen';
 
-export {
-    Loader,
-    Footer
-}
+export {Loader, RegisterScreen, LoginScreen, Footer};

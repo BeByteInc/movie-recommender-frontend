@@ -5,11 +5,11 @@ import { COLORS, FONTS, STYLES } from '../styles'
 import { ww } from '../helpers'
 
 type Props = {
-    selectedFav: number,
+    selectedFav?: number,
     next: () => void
 }
 
-const ProgressHeader = ({ selectedFav,next }: Props) => {
+const ProgressHeader = ({ selectedFav = 0,next }: Props) => {
     return (
         <View style={{ margin: 10,marginTop:20, position: "relative" }}>
             <Text style={STYLES.text}>{selectedFav} Movie Selected</Text>

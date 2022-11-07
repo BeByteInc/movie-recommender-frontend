@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { useLoadingState, useMovieStore } from '../../store'
 import { getTopRatedMovies } from '../services'
+import { STYLES } from '../styles'
 
 type Props = {}
 
@@ -21,25 +22,8 @@ export const Home = (props: Props) => {
   }
   
   return (
-    <View>
+    <View style={STYLES.mainContainer}>
       <Text>Home</Text>
-      <TouchableOpacity style={{backgroundColor:"red"}} onPress={() => {
-        addFavorite({
-          "id": 0,
-          "original_title": "string",
-          "title": "string",
-          "overview": "string",
-          "genre_names": "string",
-          "release_date": new Date("2022-10-29T15:23:29.893Z"),
-          "original_language": "string",
-          "poster_path": "string",
-          "backdrop_path": "string",
-          "vote_average": 0,
-          "vote_count": 0
-        })
-      }}>
-        <Text>Press</Text>
-      </TouchableOpacity>
       <Text>{favorites.length}</Text>
     </View>
   )

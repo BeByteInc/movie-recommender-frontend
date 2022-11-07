@@ -1,5 +1,5 @@
 import { wh, ww } from "./helpers";
-import { Platform } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const COLORS = {
     main: "#101018",
@@ -23,34 +23,42 @@ export const FONTS = {
     light: "OpenSans-Light",
 }
 
-export const STYLES: any = {
-    mainContainer: {
-        flex: 1,
-        backgroundColor: COLORS.main
-    },
-    heartLottie: {
-        width: 50,
-        height: 50,
-    },
-    text: {
-        textAlign: "center",
-        color: COLORS.textColor,
-        fontFamily: FONTS.medium
-    },
-    movieCardTitle: {
-        textAlign: "center",
-        color: COLORS.textColor,
-        fontSize: ww(.035),
-        fontFamily: FONTS.bold,
-        width: ww(.8),
-        paddingHorizontal: 10
-    },
-    backgroundImage: {
-        flex: 1,
-        justifyContent: "center"
-    },
-    fullScreen: {
-        width: ww(1),
-        height: wh(1)
+export const STYLES: any = StyleSheet.create(
+    {
+        mainContainer: {
+            flex: 1,
+            backgroundColor: COLORS.main
+        },
+        heartLottie: {
+            width: 50,
+            height: 50,
+        },
+        text: {
+            textAlign: "center",
+            color: COLORS.textColor,
+            fontFamily: FONTS.medium
+        },
+        buttonText: {
+            textAlign:"center",
+            color:COLORS.white,
+            fontFamily:FONTS.semiBold,
+            fontSize:ww(.03)
+        },
+        movieCardTitle: {
+            textAlign: "center",
+            color: COLORS.textColor,
+            fontSize: ww(.035),
+            fontFamily: FONTS.bold,
+            width: ww(.8),
+            paddingHorizontal: 10
+        },
+        backgroundImage: {
+            flex: 1,
+            justifyContent: "center"
+        },
+        fullScreen: {
+            width: ww(1),
+            height: wh(1)
+        }
     }
-}
+)

@@ -1,7 +1,7 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Movie, FavoriteState, LoadingState } from './src/types';
+import { Movie, FavoriteState, LoadingState, TokenState } from './src/types';
 
 
 export const useMovieStore = create<FavoriteState>(
@@ -54,3 +54,10 @@ export const useLoadingState = create<LoadingState>(
   }
   )
 );
+
+export const useTokenState = create<TokenState>(
+  set => ({
+    token: "",
+    setToken: (token:string) => set(() => ({token}))
+  })
+)

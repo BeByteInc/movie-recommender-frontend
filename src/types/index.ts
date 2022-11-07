@@ -20,10 +20,25 @@ export interface FavoriteState {
   addFavList: (movie: Movie[]) => void
 }
 
+export interface SvgIconProps {
+  color?:string,
+  width?:number,
+  height?:number,
+}
 
 export interface LoadingState {
   loading: boolean;
   setLoading: (state:boolean) => void;
+}
+
+export interface TokenState {
+  token: string;
+  setToken: (token:string) => void;
+}
+
+export interface UserData {
+  username: string;
+  password: string;
 }
 
 
