@@ -52,5 +52,11 @@ export interface UserData {
   password?: string;
 }
 
+export interface CategorySliderProps {
+  genres:string,
+  selected?:string[],
+  onPressCategory: (selectedCategory:string) => void;
+}
+
 
   

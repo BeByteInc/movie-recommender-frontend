@@ -27,7 +27,8 @@ export const STYLES: any = StyleSheet.create(
     {
         mainContainer: {
             flex: 1,
-            backgroundColor: COLORS.main
+            backgroundColor: COLORS.main,
+            paddingHorizontal:ww(.03),
         },
         heartLottie: {
             width: 50,
@@ -59,6 +60,27 @@ export const STYLES: any = StyleSheet.create(
         fullScreen: {
             width: ww(1),
             height: wh(1)
+        },
+        categoryContainer: {
+            marginHorizontal:6,
+            borderRadius:8,
+            backgroundColor:COLORS.grayBg,
+            justifyContent:"center",
+            shadowColor: COLORS.grayBg,
+            shadowOffset: {
+                width: 0,
+                height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            
+            elevation: 5,
+        },
+        categoryText: {
+            color:COLORS.grey,
+            paddingHorizontal:10,
+            fontFamily:FONTS.bold,
+            fontSize:ww(.03),
         }
     }
 )
