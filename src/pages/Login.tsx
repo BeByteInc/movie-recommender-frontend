@@ -5,12 +5,13 @@ import {ww} from '../helpers';
 import {UserData} from '../types';
 import {LoginScreen, RegisterScreen} from '../components';
 import {login, register} from '../services';
-import {useLoadingState, useTokenState} from '../../store';
+import {useLoadingState, useMovieStore, useTokenState} from '../../store';
 import axios from 'axios';
 
 export const Login = () => {
   const setToken = useTokenState(state => state.setToken);
   const setLoading = useLoadingState(state => state.setLoading);
+  const addFavList = useMovieStore(state => state.addFavList);
   const [loginScreen, setLoginScreen] = useState<boolean>(true);
 
 
@@ -19,9 +20,10 @@ export const Login = () => {
     setLoading(true);
     try {
       let result = await login(data);
-      setToken(result);
+      setToken(result.token);
+      addFavList(result.item_list)
       axios.defaults.headers.common['Authorization'] =
-        'Bearer ' + result;
+        'Bearer ' + result.token;
     } catch (error) {
       console.log(error);
     } finally {
@@ -33,9 +35,10 @@ export const Login = () => {
     setLoading(true);
     try {
       let result = await register(data);
-      setToken(result);
+      setToken(result.token);
+      addFavList(result.item_list)
       axios.defaults.headers.common['Authorization'] =
-        'Bearer ' + result;
+        'Bearer ' + result.token;
     } catch (error) {
       console.log(error);
     } finally {

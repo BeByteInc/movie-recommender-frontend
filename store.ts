@@ -56,8 +56,23 @@ export const useLoadingState = create<LoadingState>(
 );
 
 export const useTokenState = create<TokenState>(
-  set => ({
-    token: "",
-    setToken: (token:string) => set(() => ({token}))
-  })
-)
+  // @ts-ignore
+  persist(
+    set => ({
+      token: "",
+      setToken: (token:string) => set(() => ({token})),
+      getToken: () => {
+        AsyncStorage.getItem('token-storage').then(t => {
+          if (t) {
+            let newToken = JSON.parse(t);
+            set(() => (newToken.state.state.token));
+          }
+        });
+      },
+      }),
+    {
+      name: 'token-storage',
+      getStorage: () => AsyncStorage,
+    },
+  ),
+);

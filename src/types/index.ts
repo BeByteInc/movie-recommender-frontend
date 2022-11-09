@@ -41,8 +41,17 @@ export interface LoadingState {
   setLoading: (state:boolean) => void;
 }
 
+export interface RecommendMovieProps {
+  item: Movie[];
+}
+export interface CardProps {
+  item:Movie,
+  index:number
+}
+
 export interface TokenState {
-  token: string;
+  token: any;
+  getToken: () => void;
   setToken: (token:string) => void;
 }
 

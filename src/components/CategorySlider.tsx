@@ -5,8 +5,8 @@ import {genreArray} from '../helpers';
 import {COLORS, STYLES} from '../styles';
 import { categoryEmoji } from '../helpers/categoryEmoji';
 
-export const CategorySlider = ({genres,selected = ["Recommend"],onPressCategory}: CategorySliderProps) => {
-  const categoryArray = ["Recommend",...genreArray(genres)];
+export const CategorySlider = ({genres,selected = [],onPressCategory}: CategorySliderProps) => {
+  const categoryArray = genreArray(genres);
   return (
     <View style={{height:"90%"}}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>

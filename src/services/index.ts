@@ -9,7 +9,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 const register = async (data:UserData) => {
   try {
     let result = await axios.post("/register",data);
-    return result.data.token;
+    return result.data;
   } catch (error) {
     console.log(error);
   }
@@ -17,7 +17,7 @@ const register = async (data:UserData) => {
 const login = async (data:UserData) => {
   try {
     let result = await axios.post("/login",data);
-    return result.data.token;
+    return result.data;
   } catch (error) {
     console.log(error);
   }
@@ -33,10 +33,10 @@ const getMovieById = async (id:number) => {
 
 const getTopRatedMovies = async (page:number) => {
   try {
-    console.log(page);
     let result = await axios.get("/get_top_rated_movies?page="+page)
     return result.data.item_list.movie_list;
   } catch (error) {
+    console.log(axios)
     return [];
   }
 }

@@ -9,12 +9,13 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {useLoadingState, useMovieStore} from '../../store';
-import {CategorySlider} from '../components';
+import {CategorySlider, RecommendMovieCard} from '../components';
 import SearchBarWithIcon from '../components/SearchBarWithIcon';
 import {wh, ww} from '../helpers';
 import {addCategory} from '../helpers/addCategory';
 import {getTopRatedMovies} from '../services';
 import {COLORS, FONTS, STYLES} from '../styles';
+import { Movie } from '../types';
 
 type Props = {};
 
@@ -22,17 +23,24 @@ export const Home = (props: Props) => {
   const favorites = useMovieStore(state => state.favorites);
   const setLoading = useLoadingState(state => state.setLoading);
   const addFavorite = useMovieStore(state => state.addFavorite);
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([
-    'Recommend',
-  ]);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+  const [movieList,setMovieList] = useState<Movie[]>([]);
 
   useEffect(() => {
     getMovieList();
   }, []);
 
   const getMovieList = async () => {
-    const movieList = await getTopRatedMovies(1);
-    setLoading(false);
+    try {
+      const movieList = await getTopRatedMovies(1);
+      console.log("movieList",movieList);
+      setMovieList(movieList);
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,7 +57,7 @@ export const Home = (props: Props) => {
         <View style={styles.circleAvatarContainer}>
           <Image
             source={{
-              uri: 'https://avatars.githubusercontent.com/u/61801619?v=4',
+              uri: 'https://cdn-icons-png.flaticon.com/128/3940/3940403.png',
             }}
             style={styles.circleAvatar}
           />
@@ -57,17 +65,14 @@ export const Home = (props: Props) => {
       </View>
       <View style={styles.categorySection}>
         <CategorySlider
-          onPressCategory={(selected: string) => {
-            const newArr = addCategory(selected, selectedCategory);
-            if (newArr.length !== 0) {
-              setSelectedCategory(newArr);
-            }
-          }}
+          onPressCategory={(selected: string) => setSelectedCategory(addCategory(selected,selectedCategory))}
           selected={selectedCategory}
-          genres={'Horror|Action|Drama|Comedy|Sci-fi'}
+          genres={'Horror|Action|Drama|Comedy|Science Fiction'}
         />
       </View>
-      <View style={styles.bodySection}></View>
+      <View style={styles.bodySection}>
+            <RecommendMovieCard item={movieList}/>
+      </View>
     </View>
   );
 };
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
   bodySection: {
     flex: 12,
     marginVertical: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal:10
   },
   titleText: {
     color: COLORS.white,

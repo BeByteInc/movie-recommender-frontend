@@ -17,12 +17,12 @@ const Tab = createBottomTabNavigator();
 const Router = () => {
   const favorites = useMovieStore(state => state.favorites);
   const setLoading = useLoadingState(state => state.setLoading);
+  const setToken = useTokenState(state => state.setToken);
   const loading = useLoadingState(state => state.loading);
   const token = useTokenState(state => state.token);
 
   useEffect(() => {
-    setLoading(true);
-
+      setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 250);
@@ -68,7 +68,7 @@ const Router = () => {
   const StepperStack = () => {
     return (
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {token === '' && <Stack.Screen name={'Login'} component={Login} />}
+        {token === "" && <Stack.Screen name={'Login'} component={Login} />}
         <Stack.Screen name={'ChooseFav'} component={ChooseFav} />
       </Stack.Navigator>
     );
@@ -79,7 +79,7 @@ const Router = () => {
         <Loader />
       ) : (
         <>
-          {favorites.length === 0 ? (
+          {token === "" ? (
             <StepperStack />
           ) : favorites.length > 0 ? (
             <Stack.Navigator screenOptions={{headerShown: false}}>
