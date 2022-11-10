@@ -8,36 +8,57 @@ import {
   TextInput,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
-import {useLoadingState, useMovieStore} from '../../store';
+import { ALL_GENRES } from '../../resources';
+import {
+  useLoadingState,
+  useMovieStore,
+  useTokenState,
+  useUserStore,
+} from '../../store';
 import {CategorySlider, RecommendMovieCard} from '../components';
+import CustomHeader from '../components/CustomHeader';
 import SearchBarWithIcon from '../components/SearchBarWithIcon';
 import {wh, ww} from '../helpers';
 import {addCategory} from '../helpers/addCategory';
-import {getTopRatedMovies} from '../services';
+import { filterMovieList } from '../helpers/filterMovieList';
+import {getRecommended, getTopRatedMovies} from '../services';
 import {COLORS, FONTS, STYLES} from '../styles';
-import { Movie } from '../types';
+import {Movie} from '../types';
 
 type Props = {};
 
 export const Home = (props: Props) => {
   const favorites = useMovieStore(state => state.favorites);
-  const setLoading = useLoadingState(state => state.setLoading);
   const addFavorite = useMovieStore(state => state.addFavorite);
+  const setLoading = useLoadingState(state => state.setLoading);
+  const user = useUserStore(state => state.user);
+  const [genres,setGenres] = useState<string[]>(ALL_GENRES);
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-  const [movieList,setMovieList] = useState<Movie[]>([]);
+  const [movieList, setMovieList] = useState<Movie[]>([]);
+  const [filteredList, setFilteredList] = useState<Movie[]>([]);
 
   useEffect(() => {
     getMovieList();
   }, []);
 
+  useEffect(() => {
+    if (selectedCategory.length > 0) {
+        let filters = filterMovieList(movieList,selectedCategory);
+        setFilteredList(filters.list.slice(0,5));
+        setGenres(filters.genres.sort());
+    } else {
+      setGenres(ALL_GENRES);
+      setFilteredList(movieList.slice(0,5));
+    }
+  }, [selectedCategory]);
+
   const getMovieList = async () => {
     try {
-      const movieList = await getTopRatedMovies(1);
-      console.log("movieList",movieList);
-      setMovieList(movieList);
-
+      const movieList = await getRecommended(user.user_id);
+      setMovieList(movieList?.data.item_list.movie_list);
+      setFilteredList(movieList?.data.item_list.movie_list.slice(0,5));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -45,45 +66,24 @@ export const Home = (props: Props) => {
 
   return (
     <View style={STYLES.mainContainer}>
-      <View style={styles.headerSection}>
-        <View>
-          <Text style={{...styles.titleText, color: COLORS.grey}}>
-            Welcome User 👋
-          </Text>
-          <Text style={styles.titleText}>
-            Here is some movie advices for you.
-          </Text>
-        </View>
-        <View style={styles.circleAvatarContainer}>
-          <Image
-            source={{
-              uri: 'https://cdn-icons-png.flaticon.com/128/3940/3940403.png',
-            }}
-            style={styles.circleAvatar}
-          />
-        </View>
-      </View>
+      <CustomHeader title={"Welcome " + user.username} info='Here is some movie advices for you.'/>
       <View style={styles.categorySection}>
         <CategorySlider
-          onPressCategory={(selected: string) => setSelectedCategory(addCategory(selected,selectedCategory))}
+          onPressCategory={(selected: string) =>
+            setSelectedCategory(addCategory(selected, selectedCategory))
+          }
           selected={selectedCategory}
-          genres={'Horror|Action|Drama|Comedy|Science Fiction'}
+          genres={genres}
         />
       </View>
       <View style={styles.bodySection}>
-            <RecommendMovieCard item={movieList}/>
+        <RecommendMovieCard item={filteredList} width={ww(1)}/>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  headerSection: {
-    flex: 2,
-    marginTop: 5,
-    paddingHorizontal: 10,
-    justifyContent: 'center',
-  },
   categorySection: {
     flex: 1.2,
     marginTop: 5,
@@ -94,36 +94,6 @@ const styles = StyleSheet.create({
   bodySection: {
     flex: 12,
     marginVertical: 10,
-    paddingHorizontal:10
-  },
-  titleText: {
-    color: COLORS.white,
-    fontSize: ww(0.032),
-    marginVertical: 2,
-    fontFamily: FONTS.medium,
-  },
-  circleAvatar: {
-    height: wh(0.065),
-    width: wh(0.065),
-    borderRadius: 50,
-  },
-  circleAvatarContainer: {
-    position: 'absolute',
-    borderRadius: 50,
-    height: wh(0.065),
-    justifyContent: 'center',
-    alignSelf: 'center',
-    backgroundColor: 'white',
-    width: wh(0.065),
-    right: 10,
-    top: 15,
-    shadowColor: COLORS.secondary,
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.43,
-    shadowRadius: 9.51,
-    elevation: 15,
+    paddingHorizontal: 10,
   },
 });

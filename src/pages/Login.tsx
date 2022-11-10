@@ -5,13 +5,14 @@ import {ww} from '../helpers';
 import {UserData} from '../types';
 import {LoginScreen, RegisterScreen} from '../components';
 import {login, register} from '../services';
-import {useLoadingState, useMovieStore, useTokenState} from '../../store';
+import {useLoadingState, useMovieStore, useTokenState, useUserStore} from '../../store';
 import axios from 'axios';
 
 export const Login = () => {
   const setToken = useTokenState(state => state.setToken);
   const setLoading = useLoadingState(state => state.setLoading);
   const addFavList = useMovieStore(state => state.addFavList);
+  const updateUser = useUserStore(state => state.updateUser);
   const [loginScreen, setLoginScreen] = useState<boolean>(true);
 
 
@@ -21,7 +22,8 @@ export const Login = () => {
     try {
       let result = await login(data);
       setToken(result.token);
-      addFavList(result.item_list)
+      addFavList(result.item_list.movie_list);
+      updateUser({username:result.username,user_id:result.user_id});
       axios.defaults.headers.common['Authorization'] =
         'Bearer ' + result.token;
     } catch (error) {
@@ -36,7 +38,8 @@ export const Login = () => {
     try {
       let result = await register(data);
       setToken(result.token);
-      addFavList(result.item_list)
+      addFavList(result.item_list);
+      updateUser({username:result.username,user_id:result.user_id});
       axios.defaults.headers.common['Authorization'] =
         'Bearer ' + result.token;
     } catch (error) {

@@ -1,7 +1,7 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Movie, FavoriteState, LoadingState, TokenState } from './src/types';
+import { Movie, FavoriteState, LoadingState, TokenState, UserState, UserType } from './src/types';
 
 
 export const useMovieStore = create<FavoriteState>(
@@ -72,6 +72,41 @@ export const useTokenState = create<TokenState>(
       }),
     {
       name: 'token-storage',
+      getStorage: () => AsyncStorage,
+    },
+  ),
+);
+
+export const useUserStore = create<UserState>(
+  // @ts-ignore
+  persist(
+    set => ({
+      user: {
+        username:"",
+        user_id:0
+      },
+      getUser: () => {
+        AsyncStorage.getItem('user-storage').then(u => {
+          if (u) {
+            set((state) => ({
+              user: {
+                username:JSON.parse(u).state.username,
+                user_id:JSON.parse(u).state.user_id,
+              }
+            }))
+          }
+        });
+      },
+      updateUser: (user: UserType)=>
+      set((state) => ({
+        user: {
+          username:user.username,
+          user_id:user.user_id
+        }
+      })),
+    }),
+    {
+      name: 'user-storage',
       getStorage: () => AsyncStorage,
     },
   ),

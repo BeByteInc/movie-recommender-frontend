@@ -3,17 +3,22 @@ import React from 'react';
 import {COLORS, FONTS} from '../styles';
 import {ww} from '../helpers';
 import {CARD_POSTER_URL} from '../../resources';
-import { CardProps } from '../types';
+import {CardProps} from '../types';
 
-export const MovieCard = ({item, index}: CardProps) => {
+export const MovieCard = ({item, index, width}: CardProps) => {
   return (
     <View style={styles.container}>
-      <View style={styles.voteContainer}>
+      <View
+        style={{
+          ...styles.voteContainer,
+          bottom: width * 0.18,
+          right: width * 0.05,
+        }}>
         <Text style={styles.voteText}>{item.vote_average?.toFixed(1)}</Text>
       </View>
       <Image
         source={{uri: CARD_POSTER_URL + item.poster_path}}
-        style={styles.image}
+        style={{...styles.image, width: width * 0.75, height: width * 0.9}}
       />
       <Text style={styles.title}>{item.title}</Text>
     </View>
@@ -36,8 +41,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    bottom: 40,
-    right: 10,
     borderWidth: 3,
     borderColor: COLORS.secondary,
   },
@@ -46,7 +49,7 @@ const styles = StyleSheet.create({
     color: COLORS.secondary,
     fontFamily: FONTS.extraBold,
   },
-  image: {width: ww(0.75), height: '92%', borderRadius: 20},
+  image: {borderRadius: 20},
   title: {
     color: COLORS.secondary,
     fontSize: ww(0.035),

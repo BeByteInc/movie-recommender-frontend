@@ -18,7 +18,7 @@ const {width, height} = Dimensions.get('screen');
 const ITEM_WIDTH = width * 0.8;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.2;
 
-export const RecommendMovieCard = ({item}: RecommendMovieProps) => {
+export const RecommendMovieCard = ({item,width}: RecommendMovieProps) => {
   return (
     <View style={styles.container}>
       <FlatList
@@ -29,7 +29,9 @@ export const RecommendMovieCard = ({item}: RecommendMovieProps) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        renderItem={MovieCard}
+        renderItem={({item,index}) => (
+          <MovieCard item={item} index={index} width={width}/>
+        )}
       />
     </View>
   );

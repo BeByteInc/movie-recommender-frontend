@@ -28,7 +28,6 @@ export const STYLES: any = StyleSheet.create(
         mainContainer: {
             flex: 1,
             backgroundColor: COLORS.main,
-            paddingHorizontal:ww(.03),
         },
         heartLottie: {
             width: 50,

@@ -1,6 +1,6 @@
 import axios from "axios"
 import { API_URL } from "../../resources"
-import { UserData } from "../types"
+import { SetFavoriteServiceType, UserData } from "../types"
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -24,8 +24,26 @@ const login = async (data:UserData) => {
 }
 const getMovieById = async (id:number) => {
   try {
-    let result = axios.get("/get_movie_by_id?id="+id)
+    let result = await axios.get("/get_movie_by_id?id="+id)
     return result;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getRecommended = async (id:number) => {
+  try {
+    let result = await axios.get("/recommend?user_id="+id);
+    return result;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const setUserFavorites = async (data:SetFavoriteServiceType) => {
+  try {
+    let result = await axios.post("/set_user_favorites",data)
+    return result.status;
   } catch (error) {
     console.log(error)
   }
@@ -43,8 +61,8 @@ const getTopRatedMovies = async (page:number) => {
 
 const getTopRatedMoviesByGenre = async (page:number,genreName:string) => {
   try {
-    let result = axios.get("/get_top_rated_movies_by_genre_name?page="+page+"&genre_name="+genreName)
-    return result;
+    let result = await axios.get("/get_top_rated_movies_by_genre_name?page="+page+"&genre_name="+genreName)
+    return result.data.item_list.movie_list;
   } catch (error) {
     console.log(error)
   }
@@ -55,6 +73,7 @@ const searchAll = async (input:string) => {
     let result = await axios.get("/search_by_title_all_data?key="+input)
     return result.data.item_list.movie_list;
   } catch (error) {
+    console.log(error)
     return [];
   }
 }
@@ -75,6 +94,8 @@ export {
   getTopRatedMoviesByGenre,
   searchWithGenre,
   searchAll,
+  setUserFavorites,
   register,
-  login
+  login,
+  getRecommended
 }

@@ -5,10 +5,14 @@ import {RegisterScreen} from './RegisterScreen';
 import {CategorySlider} from './CategorySlider';
 import {RecommendMovieCard} from './RecommendMovieCard';
 import {MovieCard} from './MovieCard';
+import GridMovieCard from './GridMovieCard';
+import NoRecord from './NoRecord';
 
 export {
   Loader,
   RegisterScreen,
+  GridMovieCard,
+  NoRecord,
   MovieCard,
   LoginScreen,
   Footer,

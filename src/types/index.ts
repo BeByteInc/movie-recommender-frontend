@@ -20,10 +20,21 @@ export interface FavoriteState {
   addFavList: (movie: Movie[]) => void
 }
 
+export interface UserState {
+  user: UserType;
+  updateUser: (user: UserType) => void;
+  getUser: () => void;
+}
+
 export interface SvgIconProps {
   color?:string,
   width?:number,
   height?:number,
+}
+
+export interface SetFavoriteServiceType {
+  user_id:number,
+  movie_ids:number[]
 }
 
 export interface LoginProps {
@@ -43,10 +54,17 @@ export interface LoadingState {
 
 export interface RecommendMovieProps {
   item: Movie[];
+  width: number;
 }
 export interface CardProps {
-  item:Movie,
-  index:number
+  item:Movie;
+  index:number;
+  width:number;
+}
+
+export interface UserType {
+  username:string;
+  user_id:number
 }
 
 export interface TokenState {
@@ -62,7 +80,7 @@ export interface UserData {
 }
 
 export interface CategorySliderProps {
-  genres:string,
+  genres:string[],
   selected?:string[],
   onPressCategory: (selectedCategory:string) => void;
 }
