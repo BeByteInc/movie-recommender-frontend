@@ -70,7 +70,7 @@ const getTopRatedMoviesByGenre = async (page:number,genreName:string) => {
 
 const searchAll = async (input:string) => {
   try {
-    let result = await axios.get("/search_by_title_all_data?key="+input)
+    let result = await axios.get("/search_by_title_all_data?search_key="+input)
     return result.data.item_list.movie_list;
   } catch (error) {
     console.log(error)
@@ -80,7 +80,7 @@ const searchAll = async (input:string) => {
 
 const searchWithGenre = async (input:string,genre:string) => {
   try {
-    let result = axios.get("/search_by_title_with_genre?key="+input+"&genre="+genre)
+    let result = axios.get("/search_by_title_with_genre?search_key="+input+"&genre="+genre)
     return result;
   } catch (error) {
     console.log(error)

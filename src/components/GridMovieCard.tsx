@@ -28,7 +28,7 @@ const GridMovieCard = ({
       onEndReachedThreshold={0.2}
       removeClippedSubviews={false}
       ListFooterComponent={() => Footer(isLoading)}
-      onEndReached={loadMore && loadMore}
+      onEndReached={loadMore}
       renderItem={({item}) => (
         <>
           {item.id !== null ? (

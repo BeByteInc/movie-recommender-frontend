@@ -10,7 +10,7 @@ import {
   RecommendMovieCard,
 } from '../components';
 import {ww} from '../helpers';
-import {Movie} from '../types';
+import {FilterProps, Movie} from '../types';
 import {
   getTopRatedMovies,
   getTopRatedMoviesByGenre,
@@ -23,41 +23,41 @@ type Props = {};
 
 export const Explore = (props: Props) => {
   const [filteredList, setFilteredList] = useState<Movie[]>([]);
-  const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [genres, setGenres] = useState<string[]>(ALL_GENRES);
-  const [search, setSearch] = useState<string>('');
-  const [filter, setFilter] = useState<string>('');
+  const [filter, setFilter] = useState<FilterProps>({
+    page: 1,
+    search: '',
+    genre: '',
+  });
   useEffect(() => {
-    if (!filter) {
-      getMovieList();
-    } else {
-      getFilteredList();
-    }
-  }, [filter, page]);
-
-  useEffect(() => {
-    if (search) {
+    console.log(!filter.search);
+    console.log(filter.search === '');
+    if (!filter.search) {
       getSearchedList();
-      setPage(1);
-    } else if (filter) {
+    } else if (filter.genre !== '') {
       getFilteredList();
     } else {
       getMovieList();
     }
-  }, [search]);
+  }, [filter]);
 
   const getSearchedList = async () => {
-    let list = await searchAll(search);
-    console.log(list);
-    setFilteredList(list);
+    try {
+      let list = await searchAll(filter.search);
+      setFilteredList(list);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+      setIsLoading(false);
+    }
   };
 
   const getMovieList = async () => {
     try {
-      const response = await getTopRatedMovies(page);
-      setFilteredList([...filteredList,...response]);
+      const response = await getTopRatedMovies(filter.page);
+      setFilteredList([...filteredList, ...response]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -68,9 +68,12 @@ export const Explore = (props: Props) => {
 
   const getFilteredList = async () => {
     try {
-      const response = await getTopRatedMoviesByGenre(page, filter);
+      const response = await getTopRatedMoviesByGenre(
+        filter.page,
+        filter.genre,
+      );
       console.log(response);
-      setFilteredList([...filteredList,...response]);
+      setFilteredList([...filteredList, ...response]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -80,35 +83,55 @@ export const Explore = (props: Props) => {
   };
 
   const loadMore = () => {
-    if (!loading && !isLoading && !search) {
+    console.log('search ne baba', filter.search);
+    if (!loading && !isLoading && filter.search === '') {
       setIsLoading(true);
-      setPage(prev => {
-        return prev + 1;
+      setFilter({
+        page: filter.page + 1,
+        genre: '',
+        search: '',
       });
     }
   };
 
   const debounce_search = _.debounce(function (text: string) {
-    setSearch(text);
+    console.log("text",text);
+    setFilter({
+      page: 1,
+      genre: '',
+      search: text,
+    });
   }, 1000);
 
   return (
     <View style={STYLES.mainContainer}>
       <CustomHeader title={'Explore'} info="Here you can explore all movies." />
-      <SearchBarWithIcon onChange={debounce_search} />
+      <SearchBarWithIcon
+        onChange={text => {
+          setLoading(true);
+          debounce_search(text);
+        }}
+      />
       <View style={styles.categorySection}>
         <CategorySlider
           onPressCategory={(selected: string) => {
-            setPage(1);
-            setFilteredList([]);
             setLoading(true);
-            if (filter === selected) {
-              setFilter('');
+            setFilteredList([]);
+            if (filter.genre === selected) {
+              setFilter({
+                page: 1,
+                genre: '',
+                search: '',
+              });
             } else {
-              setFilter(selected);
+              setFilter({
+                page: 1,
+                genre: selected,
+                search: '',
+              });
             }
           }}
-          selected={Array(filter)}
+          selected={Array(filter.genre)}
           genres={genres}
         />
       </View>
@@ -121,7 +144,13 @@ export const Explore = (props: Props) => {
             color={COLORS.secondary}
           />
         ) : filteredList.length > 0 ? (
-          <GridMovieCard list={filteredList} width={ww(0.45)} numColumns={2} loadMore={loadMore} isLoading={isLoading}/>
+          <GridMovieCard
+            list={filteredList}
+            width={ww(0.45)}
+            numColumns={2}
+            loadMore={loadMore}
+            isLoading={isLoading}
+          />
         ) : (
           <NoRecord />
         )}

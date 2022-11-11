@@ -52,6 +52,12 @@ export interface LoadingState {
   setLoading: (state:boolean) => void;
 }
 
+export interface FilterProps {
+  page: number;
+  search: string;
+  genre: string;
+}
+
 export interface RecommendMovieProps {
   item: Movie[];
   width: number;
