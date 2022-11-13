@@ -32,8 +32,6 @@ export const Explore = (props: Props) => {
     genre: '',
   });
   useEffect(() => {
-    console.log(!filter.search);
-    console.log(filter.search === '');
     if (!filter.search) {
       getSearchedList();
     } else if (filter.genre !== '') {
@@ -72,7 +70,6 @@ export const Explore = (props: Props) => {
         filter.page,
         filter.genre,
       );
-      console.log(response);
       setFilteredList([...filteredList, ...response]);
     } catch (error) {
       console.log(error);
@@ -95,7 +92,6 @@ export const Explore = (props: Props) => {
   };
 
   const debounce_search = _.debounce(function (text: string) {
-    console.log("text",text);
     setFilter({
       page: 1,
       genre: '',
