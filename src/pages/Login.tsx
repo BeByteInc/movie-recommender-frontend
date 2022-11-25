@@ -21,9 +21,10 @@ export const Login = () => {
     setLoading(true);
     try {
       let result = await login(data);
+      console.log("logindata",result)
       setToken(result.token);
       addFavList(result.item_list.movie_list);
-      updateUser({username:result.username,user_id:result.user_id});
+      updateUser({username:result.username,user_id:result.user_id,user_favorites:result.item_list.movie_list});
       axios.defaults.headers.common['Authorization'] =
         'Bearer ' + result.token;
     } catch (error) {
@@ -37,9 +38,10 @@ export const Login = () => {
     setLoading(true);
     try {
       let result = await register(data);
+      console.log("registerdata",result)
       setToken(result.token);
       addFavList(result.item_list);
-      updateUser({username:result.username,user_id:result.user_id});
+      updateUser({username:result.username,user_id:result.user_id,user_favorites:result.item_list.movie_list});
       axios.defaults.headers.common['Authorization'] =
         'Bearer ' + result.token;
     } catch (error) {

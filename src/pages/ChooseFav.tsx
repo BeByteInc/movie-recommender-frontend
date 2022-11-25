@@ -29,6 +29,7 @@ export const ChooseFav = (props: Props) => {
   const setLoading = useLoadingState(state => state.setLoading);
   const addFavList = useMovieStore(state => state.addFavList);
   const user = useUserStore(state => state.user);
+  const updateUser = useUserStore(state => state.updateUser);
   const [movieList, setMovieList] = useState<Movie[]>([]);
   const [searchedMovieList, setSearchedMovieList] = useState<Movie[]>([]);
   const [search, setSearch] = useState<string>('');
@@ -61,7 +62,10 @@ export const ChooseFav = (props: Props) => {
         user_id: user.user_id,
         movie_ids: getFavoriteIds(selectedFav),
       });
-      if (status === 200) addFavList(selectedFav);
+      if (status === 200) {
+        addFavList(selectedFav);
+        updateUser({username:user.username,user_id:user.user_id,user_favorites:selectedFav});
+      }
     } catch (error) {
     } finally {
       setTimeout(() => {
@@ -182,9 +186,8 @@ export const ChooseFav = (props: Props) => {
   };
   return (
     <View style={{flex: 1, backgroundColor: COLORS.main}}>
-      <Loader />
       <ProgressHeader selectedFav={selectedLength} next={next} />
-
+      <Loader loading={loading} />
       <Text style={STYLES.text}>Choose at least 5 favorite movies 🎉</Text>
       <SearchBarWithIcon onChange={debounce_search} />
 

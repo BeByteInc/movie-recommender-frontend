@@ -1,10 +1,19 @@
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {Movie} from '../types';
 import {CARD_POSTER_URL} from '../../resources';
 import {COLORS, FONTS} from '../styles';
-import {ww} from '../helpers';
+import {checkFav, ww} from '../helpers';
 import {Footer} from '.';
+import LikeButton from './LikeButton';
+import {useMovieStore} from '../../store';
 
 type Props = {
   list: Movie[];
@@ -12,6 +21,7 @@ type Props = {
   numColumns: number;
   isLoading?: boolean;
   loadMore?: () => void;
+  onPress: (id: number) => void;
 };
 
 const GridMovieCard = ({
@@ -20,8 +30,20 @@ const GridMovieCard = ({
   numColumns,
   isLoading,
   loadMore,
+  onPress,
 }: Props) => {
   const newList = list.length % 2 !== 0 ? [...list, {id: null}] : list;
+  const favorites = useMovieStore(state => state.favorites);
+  const removeFavorite = useMovieStore(state => state.removeFavorite);
+  const addFavorite = useMovieStore(state => state.addFavorite);
+
+  const onFavPress = (item: Movie, isLiked: boolean) => {
+    if (isLiked) {
+      removeFavorite(item?.id!!);
+    } else {
+      addFavorite(item!!);
+    }
+  };
   return (
     <FlatList
       data={newList}
@@ -29,41 +51,58 @@ const GridMovieCard = ({
       removeClippedSubviews={false}
       ListFooterComponent={() => Footer(isLoading)}
       onEndReached={loadMore}
-      renderItem={({item}) => (
-        <>
-          {item.id !== null ? (
-            <View style={styles.container}>
-              <Image
-                style={{
-                  ...styles.imageThumbnail,
-                  width: width,
-                  height: width * 1.5,
-                }}
-                source={{uri: CARD_POSTER_URL + item.poster_path}}
-              />
+      renderItem={({item}) => {
+        const isLiked = item.id ? checkFav(item?.id, favorites) : false;
+        return (
+          <>
+            {item.id !== null ? (
+              <TouchableOpacity
+                style={styles.container}
+                onPress={() => onPress(item.id)}>
+                <View
+                  style={{
+                    position: 'absolute',
+                    zIndex: 2,
+                    top: width * 0.04,
+                    right: width * 0.04,
+                  }}>
+                  <LikeButton
+                    isLiked={isLiked}
+                    onChecked={() => onFavPress(item, isLiked)}
+                  />
+                </View>
+                <Image
+                  style={{
+                    ...styles.imageThumbnail,
+                    width: width,
+                    height: width * 1.5,
+                  }}
+                  source={{uri: CARD_POSTER_URL + item.poster_path}}
+                />
 
-              <View
-                style={{
-                  ...styles.voteContainer,
-                  bottom: width * 0.35,
-                  right: width * 0.05,
-                }}>
-                <Text style={styles.voteText}>
-                  {item.vote_average?.toFixed(1)}
+                <View
+                  style={{
+                    ...styles.voteContainer,
+                    bottom: width * 0.35,
+                    right: width * 0.05,
+                  }}>
+                  <Text style={styles.voteText}>
+                    {item.vote_average?.toFixed(1)}
+                  </Text>
+                </View>
+
+                <Text
+                  numberOfLines={1}
+                  style={{...styles.movieTitle, width: width - 5}}>
+                  {item.title}
                 </Text>
-              </View>
-
-              <Text
-                numberOfLines={1}
-                style={{...styles.movieTitle, width: width - 5}}>
-                {item.title}
-              </Text>
-            </View>
-          ) : (
-            <View style={styles.container}/>
-          )}
-        </>
-      )}
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.container} />
+            )}
+          </>
+        );
+      }}
       //Setting the number of column
       numColumns={numColumns}
       keyExtractor={(item, index) => index.toString()}

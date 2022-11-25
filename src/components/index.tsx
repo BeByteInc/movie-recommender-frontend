@@ -7,10 +7,14 @@ import {RecommendMovieCard} from './RecommendMovieCard';
 import {MovieCard} from './MovieCard';
 import GridMovieCard from './GridMovieCard';
 import NoRecord from './NoRecord';
+import { HeaderWithIcon } from './HeaderWithIcon';
+import { Paginator } from './Paginator';
 
 export {
   Loader,
+  Paginator,
   RegisterScreen,
+  HeaderWithIcon,
   GridMovieCard,
   NoRecord,
   MovieCard,

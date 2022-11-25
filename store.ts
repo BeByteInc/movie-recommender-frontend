@@ -35,7 +35,7 @@ export const useMovieStore = create<FavoriteState>(
       removeFavorite: (id: number) => {
         set(state => ({
           ...state,
-          movies: state.favorites.filter(movie => movie.id !== id),
+          favorites: state.favorites.filter(movie => movie.id !== id),
         }));
       },
     }),
@@ -83,7 +83,8 @@ export const useUserStore = create<UserState>(
     set => ({
       user: {
         username:"",
-        user_id:0
+        user_id:0,
+        user_favorites:[]
       },
       getUser: () => {
         AsyncStorage.getItem('user-storage').then(u => {
@@ -92,16 +93,18 @@ export const useUserStore = create<UserState>(
               user: {
                 username:JSON.parse(u).state.username,
                 user_id:JSON.parse(u).state.user_id,
+                user_favorites:JSON.parse(u).state.user_favorites,
               }
             }))
           }
         });
       },
-      updateUser: (user: UserType)=>
+      updateUser: (user: UserType)=> 
       set((state) => ({
         user: {
           username:user.username,
-          user_id:user.user_id
+          user_id:user.user_id,
+          user_favorites:user.user_favorites
         }
       })),
     }),

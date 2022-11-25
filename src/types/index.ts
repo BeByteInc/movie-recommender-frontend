@@ -58,6 +58,16 @@ export interface FilterProps {
   genre: string;
 }
 
+export interface RootStackParams {
+  Home: undefined;
+  Profile: undefined;
+  Login:undefined;
+  ChooseFav:undefined;
+  Explore: undefined;
+  FavoriteScreen: undefined;
+  MovieDetail: { id:number } | undefined;
+};
+
 export interface RecommendMovieProps {
   item: Movie[];
   width: number;
@@ -66,11 +76,12 @@ export interface CardProps {
   item:Movie;
   index:number;
   width:number;
-}
+ }
 
 export interface UserType {
   username:string;
-  user_id:number
+  user_id:number;
+  user_favorites:Movie[];
 }
 
 export interface TokenState {

@@ -1,26 +1,31 @@
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import React, { useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {COLORS, STYLES} from '../styles';
 import {ww} from '../helpers';
 import {LoginProps, UserData} from '../types';
 
 export const LoginScreen = ({onPressRegister, onPressLogin}: LoginProps) => {
-    const [loginData,setLoginData] = useState<UserData>({
-        username:"",
-        password:""
-    })
+  const [loginData, setLoginData] = useState<UserData>({
+    username: '',
+    password: '',
+  });
+  const passwordRef = useRef<null | TextInput>(null)
 
-    const handleChange = (text:string,key:string) => {
-        setLoginData((prev) => {
-            return {...prev,[key]:text}
-        })
-    }
+  const handleChange = (text: string, key: string) => {
+    setLoginData(prev => {
+      return {...prev, [key]: text};
+    });
+  };
   return (
     <>
       <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
         <TextInput
           placeholder="Username"
-          onChangeText={(text) => handleChange(text,"username")}
+          returnKeyType="next"
+          onSubmitEditing={() => {
+            passwordRef.current?.focus();
+          }}
+          onChangeText={text => handleChange(text, 'username')}
           placeholderTextColor={COLORS.grey}
           style={{
             width: ww(0.75),
@@ -32,7 +37,11 @@ export const LoginScreen = ({onPressRegister, onPressLogin}: LoginProps) => {
         />
         <TextInput
           placeholder="Password"
-          onChangeText={(text) => handleChange(text,"password")}
+          ref={passwordRef}
+          onSubmitEditing={() => {
+            onPressLogin(loginData);
+          }}
+          onChangeText={text => handleChange(text, 'password')}
           placeholderTextColor={COLORS.grey}
           secureTextEntry
           style={{

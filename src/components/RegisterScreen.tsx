@@ -1,30 +1,39 @@
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {COLORS, STYLES} from '../styles';
 import {ww} from '../helpers';
-import { RegisterProps, UserData } from '../types';
+import {RegisterProps, UserData} from '../types';
 
+export const RegisterScreen = ({
+  onPressRegister,
+  onPressLogin,
+}: RegisterProps) => {
+  const [registerData, setRegisterData] = useState<UserData>({
+    email: '',
+    username: '',
+    password: '',
+  });
 
-export const RegisterScreen = ({onPressRegister,onPressLogin}: RegisterProps) => {
-    const [registerData,setRegisterData] = useState<UserData>({
-        email:"",
-        username:"",
-        password:""
-    })
+  const passwordRef = useRef<null | TextInput>(null);
+  const usernameRef = useRef<null | TextInput>(null);
 
-    const handleChange = (text:string,key:string) => {
-        setRegisterData((prev) => {
-            return {...prev,[key]:text}
-        })
-    }
+  const handleChange = (text: string, key: string) => {
+    setRegisterData(prev => {
+      return {...prev, [key]: text};
+    });
+  };
   return (
     <>
       <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
         <TextInput
           placeholder="Email"
           keyboardType="email-address"
+          returnKeyType="next"
+          onSubmitEditing={() => {
+            usernameRef.current?.focus();
+          }}
           placeholderTextColor={COLORS.grey}
-          onChangeText={(text) => handleChange(text,"email")}
+          onChangeText={text => handleChange(text, 'email')}
           style={{
             width: ww(0.75),
             padding: 10,
@@ -35,7 +44,12 @@ export const RegisterScreen = ({onPressRegister,onPressLogin}: RegisterProps) =>
         />
         <TextInput
           placeholder="Username"
-          onChangeText={(text) => handleChange(text,"username")}
+          ref={usernameRef}
+          returnKeyType="next"
+          onSubmitEditing={() => {
+            passwordRef.current?.focus();
+          }}
+          onChangeText={text => handleChange(text, 'username')}
           placeholderTextColor={COLORS.grey}
           style={{
             width: ww(0.75),
@@ -48,8 +62,11 @@ export const RegisterScreen = ({onPressRegister,onPressLogin}: RegisterProps) =>
         />
         <TextInput
           placeholder="Password"
-          onChangeText={(text) => handleChange(text,"password")}
+          onChangeText={text => handleChange(text, 'password')}
           secureTextEntry
+          onSubmitEditing={() => {
+            onPressRegister(registerData);
+          }}
           placeholderTextColor={COLORS.grey}
           style={{
             width: ww(0.75),
@@ -60,7 +77,9 @@ export const RegisterScreen = ({onPressRegister,onPressLogin}: RegisterProps) =>
             color: COLORS.white,
           }}
         />
-        <TouchableOpacity style={{padding: 6, marginTop: 20}} onPress={() => onPressRegister(registerData)}>
+        <TouchableOpacity
+          style={{padding: 6, marginTop: 20}}
+          onPress={() => onPressRegister(registerData)}>
           <Text style={{...STYLES.buttonText, color: COLORS.secondary}}>
             Register
           </Text>

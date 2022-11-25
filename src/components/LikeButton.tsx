@@ -14,8 +14,8 @@ const AnimatedLikeButton = ({ isLiked,onChecked }: Props) => {
         <TouchableOpacity style={{ position: "absolute", right: 0, margin: 12 }} onPress={onChecked}>
             {
                 isLiked ?
-                    <Icon name='heart' type='entypo' size={ww(.06)} tvParallaxProperties={false} color={COLORS.secondary} /> :
-                    <Icon name='heart-outlined' type='entypo' size={ww(.06)} tvParallaxProperties={false} color={COLORS.secondary} />
+                    <Icon name='heart' type='fontisto' size={ww(.05)} tvParallaxProperties={false} color={COLORS.secondary} /> :
+                    <Icon name='heart-alt' type='fontisto' size={ww(.05)} tvParallaxProperties={false} color={COLORS.secondary} />
             }
         </TouchableOpacity>
     )

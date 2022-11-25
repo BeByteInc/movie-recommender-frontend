@@ -7,22 +7,25 @@ import {wh, ww} from './src/helpers';
 import {COLORS} from './src/styles';
 import {Loader} from './src/components';
 import {Home} from './src/pages/Home';
-import {useLoadingState, useMovieStore, useTokenState} from './store';
+import {useLoadingState, useMovieStore, useTokenState, useUserStore} from './store';
 import {ChooseFav} from './src/pages/ChooseFav';
 import {Login} from './src/pages/Login';
 import {Explore} from './src/pages/Explore';
 import FavoriteScreen from './src/pages/FavoriteScreen';
 import Profile from './src/pages/Profile';
+import {Movie} from './src/types';
+import MovieDetail from './src/pages/MovieDetail';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Router = () => {
-  const favorites = useMovieStore(state => state.favorites);
+  const user = useUserStore(state => state.user);
   const setLoading = useLoadingState(state => state.setLoading);
-  const setToken = useTokenState(state => state.setToken);
   const loading = useLoadingState(state => state.loading);
   const token = useTokenState(state => state.token);
+
+  console.log(user);
 
   useEffect(() => {
     setLoading(true);
@@ -30,6 +33,7 @@ const Router = () => {
       setLoading(false);
     }, 250);
   }, []);
+
 
   const TabStack = () => {
     return (
@@ -132,8 +136,7 @@ const Router = () => {
   const StepperStack = () => {
     return (
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {token === '' && <Stack.Screen name={'Login'} component={Login} />}
-        <Stack.Screen name={'ChooseFav'} component={ChooseFav} />
+        <Stack.Screen name={'Login'} component={Login} />
       </Stack.Navigator>
     );
   };
@@ -143,11 +146,13 @@ const Router = () => {
         <Loader />
       ) : (
         <>
-          {favorites.length === 0 ? (
+          {token === '' ? (
             <StepperStack />
-          ) : favorites.length > 0 ? (
+          ) : token ? (
             <Stack.Navigator screenOptions={{headerShown: false}}>
+              {!user.user_favorites.length && <Stack.Screen name={'ChooseFav'} component={ChooseFav} />}
               <Stack.Screen name={'TabStack'} component={TabStack} />
+              <Stack.Screen name={'MovieDetail'} component={MovieDetail} />
             </Stack.Navigator>
           ) : (
             <></>

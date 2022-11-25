@@ -9,7 +9,7 @@ export const COLORS = {
     disabledColor: "gray",
     grey: "#888",
     softMain: "#28339a",
-    secondary: "#fab04a",
+    secondary: "#bfa543",
     softSecondary: "#aba5d9",
     aqua: "#b7cbf1",
 }
@@ -37,6 +37,18 @@ export const STYLES: any = StyleSheet.create(
             textAlign: "center",
             color: COLORS.textColor,
             fontFamily: FONTS.medium
+        },
+        contentText: {
+            color: "grey",
+            fontFamily: FONTS.medium,
+            marginTop:10,
+            fontSize:ww(.03),
+        },
+        title: {
+            textAlign: "left",
+            color: COLORS.textColor,
+            fontFamily: FONTS.bold,
+            fontSize:ww(.045)
         },
         buttonText: {
             textAlign:"center",

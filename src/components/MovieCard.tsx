@@ -1,18 +1,42 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {COLORS, FONTS} from '../styles';
-import {ww} from '../helpers';
+import {checkFav, ww} from '../helpers';
 import {CARD_POSTER_URL} from '../../resources';
 import {CardProps} from '../types';
+import LikeButton from './LikeButton';
+import {useMovieStore} from '../../store';
 
 export const MovieCard = ({item, index, width}: CardProps) => {
+  const favorites = useMovieStore(state => state.favorites);
+  const removeFavorite = useMovieStore(state => state.removeFavorite);
+  const addFavorite = useMovieStore(state => state.addFavorite);
+  const isLiked = checkFav(item.id,favorites);
+
+  const onFavPress = () => {
+    if (isLiked) {
+      removeFavorite(item?.id!!);
+    } else {
+      addFavorite(item!!);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View
         style={{
+          position:"absolute",
+          zIndex: 2,
+          top: width * 0.08,
+          right: width * 0.04,
+        }}>
+        <LikeButton isLiked={isLiked} onChecked={onFavPress} />
+      </View>
+      <View
+        style={{
           ...styles.voteContainer,
-          bottom: width * 0.18,
-          right: width * 0.05,
+          bottom: width * 0.21,
+          right: width * 0.04,
         }}>
         <Text style={styles.voteText}>{item.vote_average?.toFixed(1)}</Text>
       </View>
@@ -28,6 +52,7 @@ export const MovieCard = ({item, index, width}: CardProps) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-evenly',
+    position: 'relative',
     alignItems: 'center',
     marginHorizontal: 20,
     flex: 1,

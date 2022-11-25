@@ -1,24 +1,15 @@
-import {
-  FlatList,
-  StyleSheet,
-  View,
-  Image,
-  Animated,
-  Dimensions,
-} from 'react-native';
-import React from 'react';
-import {CARD_POSTER_URL} from '../../resources';
-import {ww} from '../helpers';
-import {Icon, Text} from 'react-native-elements';
-import {COLORS, FONTS, STYLES} from '../styles';
-import { RecommendMovieProps } from '../types';
-import { MovieCard } from './MovieCard';
+import {FlatList, StyleSheet, View, Dimensions} from 'react-native';
+import React, {memo, useMemo} from 'react';
+import {Movie, RecommendMovieProps} from '../types';
+import {MovieCard} from './MovieCard';
+import {useMovieStore} from '../../store';
+import {checkFav} from '../helpers';
 
 const {width, height} = Dimensions.get('screen');
 const ITEM_WIDTH = width * 0.8;
-const ITEM_HEIGHT = ITEM_WIDTH * 1.2;
 
-export const RecommendMovieCard = ({item,width}: RecommendMovieProps) => {
+export const RecommendMovieCard = ({item, width}: RecommendMovieProps) => {
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -29,8 +20,12 @@ export const RecommendMovieCard = ({item,width}: RecommendMovieProps) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
-        renderItem={({item,index}) => (
-          <MovieCard item={item} index={index} width={width}/>
+        renderItem={({item, index}) => (
+          <MovieCard
+            item={item}
+            index={index}
+            width={width}
+          />
         )}
       />
     </View>

@@ -18,10 +18,12 @@ import {
 } from '../services';
 import {ALL_GENRES} from '../../resources';
 import _ from 'lodash';
+import {useNavigation} from '@react-navigation/native';
 
 type Props = {};
 
 export const Explore = (props: Props) => {
+  const navigation = useNavigation();
   const [filteredList, setFilteredList] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -32,45 +34,24 @@ export const Explore = (props: Props) => {
     genre: '',
   });
   useEffect(() => {
-    if (!filter.search) {
-      getSearchedList();
-    } else if (filter.genre !== '') {
-      getFilteredList();
-    } else {
-      getMovieList();
-    }
+    fetchData();
   }, [filter]);
 
-  const getSearchedList = async () => {
+  const fetchData = async () => {
     try {
-      let list = await searchAll(filter.search);
-      setFilteredList(list);
-    } catch (error) {
-    } finally {
-      setLoading(false);
-      setIsLoading(false);
-    }
-  };
-
-  const getMovieList = async () => {
-    try {
-      const response = await getTopRatedMovies(filter.page);
-      setFilteredList([...filteredList, ...response]);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-      setIsLoading(false);
-    }
-  };
-
-  const getFilteredList = async () => {
-    try {
-      const response = await getTopRatedMoviesByGenre(
-        filter.page,
-        filter.genre,
-      );
-      setFilteredList([...filteredList, ...response]);
+      if (filter.search !== '') {
+        let list = await searchAll(filter.search);
+        setFilteredList(list);
+      } else if (filter.genre !== '') {
+        const response = await getTopRatedMoviesByGenre(
+          filter.page,
+          filter.genre,
+        );
+        setFilteredList([...filteredList, ...response]);
+      } else {
+        const response = await getTopRatedMovies(filter.page);
+        setFilteredList([...filteredList, ...response]);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -80,7 +61,6 @@ export const Explore = (props: Props) => {
   };
 
   const loadMore = () => {
-    console.log('search ne baba', filter.search);
     if (!loading && !isLoading && filter.search === '') {
       setIsLoading(true);
       setFilter({
@@ -105,6 +85,9 @@ export const Explore = (props: Props) => {
       <SearchBarWithIcon
         onChange={text => {
           setLoading(true);
+          if (text === '') {
+            setFilteredList([]);
+          }
           debounce_search(text);
         }}
       />
@@ -144,6 +127,10 @@ export const Explore = (props: Props) => {
             list={filteredList}
             width={ww(0.45)}
             numColumns={2}
+            onPress={(id) => {
+              // @ts-ignore
+              navigation.navigate('MovieDetail',{id:id});
+            }}
             loadMore={loadMore}
             isLoading={isLoading}
           />

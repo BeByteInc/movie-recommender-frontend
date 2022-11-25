@@ -25,7 +25,7 @@ const login = async (data:UserData) => {
 const getMovieById = async (id:number) => {
   try {
     let result = await axios.get("/get_movie_by_id?id="+id)
-    return result;
+    return result.data.item_list;
   } catch (error) {
     console.log(error)
   }
