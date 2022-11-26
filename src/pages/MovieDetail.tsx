@@ -50,7 +50,6 @@ const MovieDetail = ({id, route}: Props) => {
     try {
       let response = await getMovieById(route.params.id);
       setMovieData(response);
-      console.log(response);
     } catch (error) {
       console.log(error);
     } finally {

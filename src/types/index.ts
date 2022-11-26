@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export interface Movie {
   id: number,
   original_title?: string,
@@ -80,6 +82,7 @@ export interface CardProps {
 
 export interface UserType {
   username:string;
+  email?:string;
   user_id:number;
   user_favorites:Movie[];
 }

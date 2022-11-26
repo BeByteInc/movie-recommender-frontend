@@ -27,7 +27,7 @@ const Profile = (props: Props) => {
 
     setTimeout(() => {
       setToken('');
-      updateUser({username: '', user_favorites: [], user_id: 0});
+      updateUser({username: '', user_id: 0, user_favorites: []});
       addFavList([]);
       setLoading(false);
     }, 200);

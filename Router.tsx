@@ -25,8 +25,6 @@ const Router = () => {
   const loading = useLoadingState(state => state.loading);
   const token = useTokenState(state => state.token);
 
-  console.log(user);
-
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {

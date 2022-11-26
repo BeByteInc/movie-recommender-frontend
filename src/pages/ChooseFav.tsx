@@ -53,7 +53,7 @@ export const ChooseFav = (props: Props) => {
   const debounce_search = _.debounce(function (text: string) {
     setSearch(text);
     setSearchLoading(false);
-  }, 1000);
+  }, 500);
 
   const next = async () => {
     setLoading(true);

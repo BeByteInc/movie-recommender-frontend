@@ -7,6 +7,7 @@ import {
   Image,
   TextInput,
   FlatList,
+  Animated,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {ALL_GENRES} from '../../resources';
@@ -16,7 +17,12 @@ import {
   useTokenState,
   useUserStore,
 } from '../../store';
-import {CategorySlider, MovieCard, RecommendMovieCard} from '../components';
+import {
+  CategorySlider,
+  MovieCard,
+  Paginator,
+  RecommendMovieCard,
+} from '../components';
 import CustomHeader from '../components/CustomHeader';
 import {wh, ww} from '../helpers';
 import {addCategory} from '../helpers/addCategory';
@@ -30,6 +36,7 @@ type Props = {};
 export const Home = (props: Props) => {
   const setLoading = useLoadingState(state => state.setLoading);
   const user = useUserStore(state => state.user);
+  const scrollX = React.useRef(new Animated.Value(0)).current;
   const [genres, setGenres] = useState<string[]>(ALL_GENRES);
   const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [movieList, setMovieList] = useState<Movie[]>([]);
@@ -51,7 +58,6 @@ export const Home = (props: Props) => {
   }, [selectedCategory]);
 
   const getMovieList = async () => {
-    console.log(movieList);
     if (movieList.length === 0) {
       try {
         const movieList = await getRecommended(user.user_id);
@@ -82,8 +88,12 @@ export const Home = (props: Props) => {
       </View>
       <View style={styles.bodySection}>
         <View style={styles.container}>
-          <FlatList
+          <Animated.FlatList
             data={filteredList}
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {x: scrollX}}}],
+              {useNativeDriver: false},
+            )}
             contentContainerStyle={{justifyContent: 'center'}}
             keyExtractor={item => item.id.toString()}
             snapToAlignment="center"
@@ -94,6 +104,9 @@ export const Home = (props: Props) => {
               <MovieCard item={item} index={index} width={ww(1)} />
             )}
           />
+          <View style={styles.paginatorStyle}>
+            <Paginator data={filteredList} scrollX={scrollX} screenWidth={ww(1)-40}/>
+          </View>
         </View>
       </View>
     </View>
@@ -113,10 +126,17 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 10,
   },
-   container: {
+  container: {
     justifyContent: 'space-evenly',
+    position:"relative",
     alignItems: 'center',
     marginHorizontal: 20,
     flex: 1,
   },
+  paginatorStyle: {
+    position:"absolute",
+    top:0,
+    justifyContent:"center",
+    alignItems:"center"
+  }
 });

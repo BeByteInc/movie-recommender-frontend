@@ -9,7 +9,7 @@ export const LoginScreen = ({onPressRegister, onPressLogin}: LoginProps) => {
     username: '',
     password: '',
   });
-  const passwordRef = useRef<null | TextInput>(null)
+  const passwordRef = useRef<null | TextInput>(null);
 
   const handleChange = (text: string, key: string) => {
     setLoginData(prev => {
@@ -60,11 +60,11 @@ export const LoginScreen = ({onPressRegister, onPressLogin}: LoginProps) => {
             Sign In
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{padding: 6, marginTop: 5}}>
+        {/* <TouchableOpacity style={{padding: 6, marginTop: 5}}>
           <Text style={{...STYLES.buttonText, fontSize: ww(0.028)}}>
             Forgot Password
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View
         style={{

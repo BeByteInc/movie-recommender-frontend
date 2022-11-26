@@ -31,7 +31,7 @@ const getMovieById = async (id:number) => {
   }
 }
 
-const getRecommended = async (id:number) => {
+const getRecommended = async (id?:number) => {
   try {
     let result = await axios.get("/recommend?user_id="+id);
     return result;

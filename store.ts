@@ -27,8 +27,7 @@ export const useMovieStore = create<FavoriteState>(
       addFavList: (favList: Movie[]) => {
         set(state => {
           return {
-            ...state,
-            favorites: [...state.favorites, ...favList],
+            favorites: favList,
           };
         });
       },
@@ -99,14 +98,15 @@ export const useUserStore = create<UserState>(
           }
         });
       },
-      updateUser: (user: UserType)=> 
-      set((state) => ({
-        user: {
-          username:user.username,
-          user_id:user.user_id,
-          user_favorites:user.user_favorites
-        }
-      })),
+      updateUser: (user: UserType)=> {
+        set((state) => ({
+          user: {
+            username:user.username,
+            user_id:user.user_id,
+            user_favorites:user.user_favorites,
+          }
+        }))
+      }
     }),
     {
       name: 'user-storage',

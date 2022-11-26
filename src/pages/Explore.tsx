@@ -24,15 +24,16 @@ type Props = {};
 
 export const Explore = (props: Props) => {
   const navigation = useNavigation();
+  const genres:string[] = ALL_GENRES;
   const [filteredList, setFilteredList] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [genres, setGenres] = useState<string[]>(ALL_GENRES);
   const [filter, setFilter] = useState<FilterProps>({
     page: 1,
     search: '',
     genre: '',
   });
+
   useEffect(() => {
     fetchData();
   }, [filter]);

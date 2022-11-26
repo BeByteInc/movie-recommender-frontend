@@ -7,7 +7,7 @@ import {CardProps} from '../types';
 import LikeButton from './LikeButton';
 import {useMovieStore} from '../../store';
 
-export const MovieCard = ({item, index, width}: CardProps) => {
+export const MovieCard = ({item, width}: CardProps) => {
   const favorites = useMovieStore(state => state.favorites);
   const removeFavorite = useMovieStore(state => state.removeFavorite);
   const addFavorite = useMovieStore(state => state.addFavorite);
@@ -35,8 +35,8 @@ export const MovieCard = ({item, index, width}: CardProps) => {
       <View
         style={{
           ...styles.voteContainer,
-          bottom: width * 0.21,
-          right: width * 0.04,
+          top:width * 0.83,
+          right:15
         }}>
         <Text style={styles.voteText}>{item.vote_average?.toFixed(1)}</Text>
       </View>
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: "flex-end",
     width: 40,
     height: 40,
     borderRadius: 20,
