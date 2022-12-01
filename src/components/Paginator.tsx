@@ -6,33 +6,42 @@ import {Movie} from '../types';
 type Props = {
   data: any;
   scrollX: any;
-  screenWidth:number;
+  screenWidth: number;
 };
 
-export const Paginator = ({data, scrollX,screenWidth}: Props) => {
+export const Paginator = ({data, scrollX, screenWidth}: Props) => {
   return (
-    <View style={{flexDirection: 'row', height: 64, justifyContent: 'center'}}>
-      {data.map((_: any, i: number) => {
-        const inputRange = [(i - 1) * screenWidth, i * screenWidth, (i + 1) * screenWidth];
-        const dotWidth = scrollX.interpolate({
-          inputRange,
-          outputRange: [12, 24, 12],
-          extrapolate: 'clamp',
-        });
-        return (
-          <Animated.View
-            style={[styles.dot, {width: dotWidth}]}
-            key={i.toString()}
-          />
-        );
-      })}
-    </View>
+    <>
+      {data && (
+        <View
+          style={{flexDirection: 'row', height: 64, justifyContent: 'center'}}>
+          {data.map((_: any, i: number) => {
+            const inputRange = [
+              (i - 1) * screenWidth,
+              i * screenWidth,
+              (i + 1) * screenWidth,
+            ];
+            const dotWidth = scrollX.interpolate({
+              inputRange,
+              outputRange: [12, 24, 12],
+              extrapolate: 'clamp',
+            });
+            return (
+              <Animated.View
+                style={[styles.dot, {width: dotWidth}]}
+                key={i.toString()}
+              />
+            );
+          })}
+        </View>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   dot: {
-    height: 10,
+    height: 8,
     borderRadius: 8,
     borderColor: COLORS.softSecondary,
     marginHorizontal: 8,
@@ -47,4 +56,3 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
   },
 });
-

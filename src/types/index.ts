@@ -74,11 +74,6 @@ export interface RecommendMovieProps {
   item: Movie[];
   width: number;
 }
-export interface CardProps {
-  item:Movie;
-  index:number;
-  width:number;
- }
 
 export interface UserType {
   username:string;

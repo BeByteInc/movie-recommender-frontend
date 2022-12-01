@@ -3,15 +3,22 @@ import React, {useMemo} from 'react';
 import {COLORS, FONTS} from '../styles';
 import {checkFav, ww} from '../helpers';
 import {CARD_POSTER_URL} from '../../resources';
-import {CardProps} from '../types';
+import {Movie} from '../types';
 import LikeButton from './LikeButton';
 import {useMovieStore} from '../../store';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import { FastImages } from './FastImages';
 
-export const MovieCard = ({item, width}: CardProps) => {
+type Props = {
+  item:Movie;
+  width:number;
+}
+
+export const MovieCard = ({item, width}: Props) => {
   const favorites = useMovieStore(state => state.favorites);
   const removeFavorite = useMovieStore(state => state.removeFavorite);
   const addFavorite = useMovieStore(state => state.addFavorite);
-  const isLiked = checkFav(item.id,favorites);
+  const isLiked = checkFav(item.id, favorites);
 
   const onFavPress = () => {
     if (isLiked) {
@@ -22,10 +29,11 @@ export const MovieCard = ({item, width}: CardProps) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View 
+    style={styles.container}>
       <View
         style={{
-          position:"absolute",
+          position: 'absolute',
           zIndex: 2,
           top: width * 0.08,
           right: width * 0.04,
@@ -35,13 +43,13 @@ export const MovieCard = ({item, width}: CardProps) => {
       <View
         style={{
           ...styles.voteContainer,
-          top:width * 0.83,
-          right:15
+          top: width * 0.83,
+          right: 15,
         }}>
         <Text style={styles.voteText}>{item.vote_average?.toFixed(1)}</Text>
       </View>
-      <Image
-        source={{uri: CARD_POSTER_URL + item.poster_path}}
+      <FastImages
+        source={CARD_POSTER_URL + item.poster_path}
         style={{...styles.image, width: width * 0.75, height: width * 0.9}}
       />
       <Text style={styles.title}>{item.title}</Text>
@@ -63,7 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
     width: 40,
     height: 40,
     borderRadius: 20,

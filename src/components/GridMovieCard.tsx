@@ -11,7 +11,7 @@ import {Movie} from '../types';
 import {CARD_POSTER_URL} from '../../resources';
 import {COLORS, FONTS} from '../styles';
 import {checkFav, ww} from '../helpers';
-import {Footer} from '.';
+import {FastImages, Footer} from '.';
 import LikeButton from './LikeButton';
 import {useMovieStore} from '../../store';
 
@@ -71,13 +71,14 @@ const GridMovieCard = ({
                     onChecked={() => onFavPress(item, isLiked)}
                   />
                 </View>
-                <Image
+
+                <FastImages
+                  source={CARD_POSTER_URL + item.poster_path}
                   style={{
                     ...styles.imageThumbnail,
                     width: width,
                     height: width * 1.5,
                   }}
-                  source={{uri: CARD_POSTER_URL + item.poster_path}}
                 />
 
                 <View

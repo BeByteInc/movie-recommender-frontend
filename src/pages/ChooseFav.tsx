@@ -6,6 +6,7 @@ import {
   ImageBackground,
   ScrollView,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {COLORS, FONTS, STYLES} from '../styles';
@@ -25,6 +26,7 @@ import {getFavoriteIds} from '../helpers/getFavoriteIds';
 type Props = {};
 
 export const ChooseFav = (props: Props) => {
+  const navigation = useNavigation();
   const loading = useLoadingState(state => state.loading);
   const setLoading = useLoadingState(state => state.setLoading);
   const addFavList = useMovieStore(state => state.addFavList);

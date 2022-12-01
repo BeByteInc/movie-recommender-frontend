@@ -1,39 +1,21 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  TextInput,
-  FlatList,
-  Animated,
-} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {View, TouchableOpacity, StyleSheet, Animated} from 'react-native';
 import {ALL_GENRES} from '../../resources';
-import {
-  useLoadingState,
-  useMovieStore,
-  useTokenState,
-  useUserStore,
-} from '../../store';
-import {
-  CategorySlider,
-  MovieCard,
-  Paginator,
-  RecommendMovieCard,
-} from '../components';
+import {useLoadingState, useMovieStore, useUserStore} from '../../store';
+import {CategorySlider, MovieCard, Paginator} from '../components';
 import CustomHeader from '../components/CustomHeader';
-import {wh, ww} from '../helpers';
+import {ww} from '../helpers';
 import {addCategory} from '../helpers/addCategory';
 import {filterMovieList} from '../helpers/filterMovieList';
-import {getRecommended, getTopRatedMovies} from '../services';
-import {COLORS, FONTS, STYLES} from '../styles';
+import {getRecommended} from '../services';
+import {STYLES} from '../styles';
 import {Movie} from '../types';
 
 type Props = {};
 
 export const Home = (props: Props) => {
+  const navigation = useNavigation();
   const setLoading = useLoadingState(state => state.setLoading);
   const user = useUserStore(state => state.user);
   const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -101,11 +83,22 @@ export const Home = (props: Props) => {
             showsHorizontalScrollIndicator={false}
             pagingEnabled
             renderItem={({item, index}) => (
-              <MovieCard item={item} index={index} width={ww(1)} />
+              <TouchableOpacity
+                style={{flex: 1}}
+                onPress={() => {
+                  //@ts-ignore
+                  navigation.navigate('MovieDetail', {id: item.id});
+                }}>
+                <MovieCard item={item} width={ww(1)} />
+              </TouchableOpacity>
             )}
           />
           <View style={styles.paginatorStyle}>
-            <Paginator data={filteredList} scrollX={scrollX} screenWidth={ww(1)-40}/>
+            <Paginator
+              data={filteredList}
+              scrollX={scrollX}
+              screenWidth={ww(1) - 40}
+            />
           </View>
         </View>
       </View>
@@ -128,15 +121,15 @@ const styles = StyleSheet.create({
   },
   container: {
     justifyContent: 'space-evenly',
-    position:"relative",
+    position: 'relative',
     alignItems: 'center',
     marginHorizontal: 20,
     flex: 1,
   },
   paginatorStyle: {
-    position:"absolute",
-    top:0,
-    justifyContent:"center",
-    alignItems:"center"
-  }
+    position: 'absolute',
+    top: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

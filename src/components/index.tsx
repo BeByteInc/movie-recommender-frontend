@@ -9,9 +9,11 @@ import GridMovieCard from './GridMovieCard';
 import NoRecord from './NoRecord';
 import { HeaderWithIcon } from './HeaderWithIcon';
 import { Paginator } from './Paginator';
+import { FastImages } from './FastImages';
 
 export {
   Loader,
+  FastImages,
   Paginator,
   RegisterScreen,
   HeaderWithIcon,
