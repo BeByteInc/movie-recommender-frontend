@@ -40,7 +40,6 @@ export const Home = (props: Props) => {
   }, [selectedCategory]);
 
   const getMovieList = async () => {
-    if (movieList.length === 0) {
       try {
         const movieList = await getRecommended(user.user_id);
         setMovieList(movieList?.data.item_list.movie_list);
@@ -50,7 +49,6 @@ export const Home = (props: Props) => {
       } finally {
         setLoading(false);
       }
-    }
   };
 
   return (
